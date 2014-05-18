@@ -48,6 +48,7 @@ function initConfig(){
 	});
 
 	// show a message in console
+	app.listen(80);
 	console.log('pres server is running and listening to port 80');
 }
 
@@ -93,9 +94,9 @@ function takeAPic(presName, url){
 	var binPath = phantomjs.path;
 	
 	var childArgs = [
-	  __dirname+ '\\rasterize.js',
+	  __dirname+ '/rasterize.js',
 	  url,
-	  __dirname+'\\..\\public\\upload\\' + presName+ '\\' + presName +'.png'
+	  __dirname+'/../public/upload/' + presName+ '/' + presName +'.png'
 	];
 
 	childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
