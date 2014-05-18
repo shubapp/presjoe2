@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="presJoe" dir="rtl">
+<head>
+	<title>Presentational Joe</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/lib/font-awesome.min.css" />
+	<link rel="stylesheet" href="css/globals.css" />
+	<link rel="stylesheet" href="css/navbar.css" />
+	<link rel="stylesheet" href="css/presentations.css" />
+	<link rel="stylesheet" href="css/modal.css" />
+</head>
+<body ng-controller="navbarController">
+	<nav>
+		<ul id="navbar" when-scrolled="scrollerPosition" ng-class="{expanded : scroll < 10}">
+			<li id="navbar-pres-logo" class="navbar-item">
+				Joe:Pres
+			</li>
+			<li class="navbar-item">
+				<a href="#/new-presentation">מצגת חדשה</a>
+			</li>
+			<li class="navbar-item">
+				<a href="#/presentations">מצגות אחרונות</a>
+			</li>
+			<li class="navbar-item">
+				<a href="#/presentations">המצגות שלי</a>
+			</li>
+			<li class="navbar-item" id="navbar-search">
+				<form class="navbar-search" id="navbar-search-form" method="POST" >
+						<input type="search" class="search-query searchMov textBox" ng-change="filterChange()" id="search-query" placeholder="חפש"  ng-model="filter.name">
+				</form>
+			</li>
+		</ul>
+	</nav>
+	
+	<div id="topfix" scroll-position="scroll"></div>
+
+	<br>
+
+	<!-- The Thumbnails will apeare here -->
+	<div ng-view>
+		Here are the thumbnails
+	</div>
+
+<script type="text/javascript" src="js/lib/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/lib/angular.min.js"></script>
+<script type="text/javascript" src="js/lib/angular-route.min.js"></script>
+
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/controllers/controllers.js"></script>
+<script type="text/javascript" src="js/directives/directives.js"></script>
+</body>
+</html>

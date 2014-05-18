@@ -1,0 +1,97 @@
+#navbar {
+  z-index: 1000;
+  margin: 0;
+  padding: 0 0;
+  position: fixed;
+  list-style: none;
+
+  background-image: -webkit-linear-gradient(top, #69A85D, #74C565);
+
+  width: 100%;
+  height: 40px;
+
+  -webkit-transition: opacity 0.2s ease, padding 0.2s ease;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+
+  opacity: 0.7;
+}
+
+#navbar.expanded,
+#navbar:hover {
+  opacity: 1;
+  padding: 8px 0;
+}
+
+#topfix {
+  padding-top: 41px;
+}
+
+.navbar-item {
+  float: right;
+  height: 30px;
+}
+
+.navbar-item a, 
+#navbar-pres-logo {
+  display: block;
+  padding: 10px 10px;
+  color: #f7f7f7;
+  text-shadow: -1px -1px rgba(0,0,0,0.3), 1px 1px rgba(255,255,255,0.2);
+}
+
+.navbar-item a {
+  text-decoration: none;
+  background-color: rgba(0,0,0,0);
+  box-shadow: inset 0px 0px 0px rgba(0,0,0,0);
+  -webkit-transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-item a:hover {
+  background-color: rgba(0,0,0,0.05);
+  box-shadow: inset 0px 0px 1px rgba(0,0,0,0.1);
+}
+
+#navbar-pres-logo {
+  font-weight: bold;
+}
+
+#navbar-search {
+  float: left;
+  width: 15em;
+  text-align: left;
+}
+
+#search-query::-webkit-input-placeholder {
+  text-indent: 0px;
+  -webkit-transition: text-indent 0.2s linear;
+}
+
+#search-query::-webkit-input-placeholder::before {
+  content: '\f002  ';
+  font-family: 'FontAwesome';
+  opacity: 0.5;
+}
+
+#search-query::-webkit-input-placeholder::before:hover {
+  opacity: 1;
+}
+
+#search-query:focus::-webkit-input-placeholder {
+  text-indent: -3em;
+}
+
+.textBox {
+  padding: 5px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(0,0,0,0.2);
+  box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+  outline: 0;
+  -webkit-transition: box-shadow 0.3s ease, width 0.3s ease;
+  width: 10em;
+}
+
+.textBox:focus {
+  box-shadow: 0 0 5px rgba(159, 255, 71, 0.9);
+  width: 15em;
+}

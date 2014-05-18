@@ -1,0 +1,35 @@
+.modal{
+	display:block;
+	position: fixed;
+	z-index: 1000;
+	top: 3em;
+	margin: 0 20%;
+	width: 60%;
+	height: 55em;
+	box-shadow: 4px 4px 6px black;
+}
+
+.modal .title .close{
+ 	float: right;
+ 	color: black;
+ 	cursor: pointer;
+}
+
+.modal .title{
+	position:relative;
+	background: rgba(250,250,250,0.9);
+	background: linear-gradient(top, rgba(71,160,255,0.8) 0%,rgba(0,49,99,0.6) 100%);
+	border: 2px solid rgba(255, 255, 255, .2);
+	border-top: 2px solid rgba(255, 255, 255, .6);
+	border-bottom: 2px solid rgba(30, 30, 30, .5);
+	padding:1%;
+	box-shadow:0 2px 6px -2px rgba(0, 0, 0, .6);
+	color: rgb(80,180,80);
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	width: 98%;
+}
+.modal .content{
+	height: 95%;
+}

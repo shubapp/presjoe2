@@ -1,0 +1,28 @@
+{
+  "name": "presJoe",
+  "version": "0.0.0",
+  "description": "a public presentation site by shubapp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shubapp/presjoe2"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "Dean Shub",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shubapp/presjoe2/issues"
+  },
+  "homepage": "https://github.com/shubapp/presjoe2",
+  "dependencies": {
+    "express": "~3.4.8",
+    "phantomjs": "~1.9.7-5",
+    "mongoose":"~3.8.9"
+  }
+}

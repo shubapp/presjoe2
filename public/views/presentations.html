@@ -1,0 +1,19 @@
+
+	<div id="fixed" when-scrolled="loadMore()">
+		<ul class="thumbnails">
+			<li style="background-image: url('{{pres.thumbnail}}'),url('img/generalPres.png');" ng-repeat="pres in presentations | filter:filter.name" >
+				<a showpres="{{pres.title}}">
+				<!-- href="upload/{{ pres.contents }}" -->
+					<span class="hidden-text" >
+						<i class="icon-facetime-video"></i>{{pres.user}}
+					</span>
+					{{pres.desc}}
+				</a>
+			</li>
+		</ul>
+	<br/>
+	</div>
+
+
+<div id="presModal" class="modal invisible"/>
+</div>

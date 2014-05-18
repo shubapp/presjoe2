@@ -1,0 +1,63 @@
+
+.thumbnails {
+	display: block;
+	list-style: none;
+	padding: 0;
+	margin: 0 10%;
+	width: 80%;
+}
+
+.thumbnails::after {
+	content: '';
+	clear: both;
+	display: block;
+}
+
+.thumbnails li {
+	width: 24%;
+	height: 17em;
+	padding: 0;
+	float: right;
+	margin: 5px;
+	background-size: 100%;
+	overflow: hidden;
+	box-shadow: 3px 3px 5px rgb(15, 78, 30);
+}
+
+.thumbnails a {
+	display: block;
+	height: 100%;
+	vertical-align: bottom;
+	line-height: 200px;
+	text-align: center;
+	color: #f7f7f7;
+	text-decoration: none;
+	position: relative;
+	background-color: rgba(0,0,0,0);
+	-webkit-transition: background-color 0.3s ease;
+	font-weight: bold;
+}
+
+.thumbnails a:hover {
+	background-color: rgba(105, 168, 93, 0.9);
+}
+
+.thumbnails .hidden-text {
+	font-weight: lighter;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	text-indent: -200px;
+	-webkit-transition: text-indent 0.3s ease;
+	text-shadow: -1px -1px rgba(0,0,0,0.4);
+}
+
+.thumbnails a:hover .hidden-text {
+	text-indent: 10px;
+}
+
+.newPresForm{
+	display: block;
+	width: 20%;
+	margin: 2em auto;
+}
