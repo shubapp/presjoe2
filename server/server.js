@@ -6,6 +6,7 @@ var childProcess 	= require('child_process');
 var Presentation    = require('./models/presentation');
 exports.app = app;
 
+var binPath = process.env.PHANTOM_PATH || require('phantomjs').path;
 
 //todo use env
 var serverName = 'pres.shubapp.com';
@@ -15,6 +16,8 @@ function initConfig(){
 	process.on('uncaughtException',function(err){
 		console.log("ERROR: " +err);
 	});
+
+	addFunctions();
 	
 	dbHandle();
 
@@ -64,7 +67,7 @@ function addNewPresentation(newDir, originalFilename, presTitle, tags, descText,
     	fs.readFile(req.files.pres.path, function (err, data) {
 			var newPath = newDir +"/"+ originalFilename;
 			fs.writeFile(newPath, data, function (err) {
-				takeAPic(presTitle,'http://www.google.com');
+				takeAPic(presTitle, originalFilename,'http://www.google.com');
 				
 				// db entitiy
 				var pres = new Presentation({
@@ -89,20 +92,28 @@ function addNewPresentation(newDir, originalFilename, presTitle, tags, descText,
 	});
 }
 
-function takeAPic(presName, url){
-	var binPath = process.env.PHANTOM_PATH || require('phantomjs').path;
-	
-	var childArgs = [
-	  __dirname+ '/rasterize.js',
-	  url,
-	  __dirname+'/../public/upload/' + presName+ '/' + presName +'.png'
-	];
+function takeAPic(presName, filename, url){
+	var newPresFolder=__dirname+'/../public/upload/' + presName+ '/' ;
 
-	childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-		if(err){
-			console.log(err);
-		}
-	});
+	if (filename.endsWith('.pdf')) {
+		childProcess.execFile("convert", [newPresFolder + filename+'[0]' ,newPresFolder + presName +'.png'], function(err, stdout, stderr) {
+			if(err){
+				console.log(err);
+			}
+		});
+	}else if (filename.indexOf('http://')==0) {
+		var childArgs = [
+		  __dirname+ '/rasterize.js',
+		  url,
+		  newPresFolder + presName +'.png'
+		];
+
+		childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+			if(err){
+				console.log(err);
+			}
+		});
+	}
 }
 
 function dbHandle(){
@@ -115,5 +126,12 @@ function dbHandle(){
 	});
 }
 
+function addFunctions(){
+	if (typeof String.prototype.endsWith != 'function') {
+	  String.prototype.endsWith = function (str){
+	    return (this.slice(-str.length) == str)||(this.slice(-str.length) == str.toUpperCase());
+	  };
+	}
+}
 
 initConfig();
