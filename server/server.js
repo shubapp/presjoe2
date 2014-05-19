@@ -2,7 +2,6 @@ var express 		= require('express');
 var mongoose 		= require('mongoose');
 var fs 				= require('fs');
 var app 			= express();
-var phantomjs 		= require('phantomjs');
 var childProcess 	= require('child_process');
 var Presentation    = require('./models/presentation');
 exports.app = app;
@@ -91,7 +90,7 @@ function addNewPresentation(newDir, originalFilename, presTitle, tags, descText,
 }
 
 function takeAPic(presName, url){
-	var binPath = phantomjs.path;
+	var binPath = process.env.PHANTOM_PATH || require('phantomjs').path;
 	
 	var childArgs = [
 	  __dirname+ '/rasterize.js',
