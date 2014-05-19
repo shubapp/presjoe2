@@ -100,7 +100,9 @@ function takeAPic(presName, url){
 	];
 
 	childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
-	
+		if(err){
+			console.log(err);
+		}
 	});
 }
 
