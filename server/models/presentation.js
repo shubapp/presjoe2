@@ -8,7 +8,8 @@ var presentationSchema = new mongoose.Schema({
         created_at: Date,
         updated_at: Date,
         contents: 	String,
-        desc: 		String
+        desc: 		String,
+        type: 		String
 });
 
 module.exports = mongoose.model('Presentation', presentationSchema);

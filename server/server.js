@@ -9,8 +9,13 @@ exports.app = app;
 var binPath = process.env.PHANTOM_PATH || require('phantomjs').path;
 
 //todo use env
-var serverName = 'pres.shubapp.com';
+var serverName = process.env.HOST_NAME||'testpres.shubapp.com';
 var API_PATH = '/api/';
+
+var PRES_TYPES={
+	URL:1,
+	PDF:2
+};
 
 function initConfig(){
 	process.on('uncaughtException',function(err){
@@ -45,7 +50,17 @@ function initConfig(){
 	});
 
 	app.post(API_PATH+'newPres', function(req, res){ 
-		addNewPresentation(__dirname + "/../public/upload/"+req.body.title, req.files.pres.originalFilename,req.body.title, 
+		var fileName;
+		var presType;
+		
+		if (!req.files.pres.originalFilename){
+			fileName = req.body.presurl;
+			presType=PRES_TYPES.URL;
+		}else{
+			fileName = req.files.pres.originalFilename;
+			presType=PRES_TYPES.PDF;
+		}
+		addNewPresentation(presType, __dirname + "/../public/upload/"+req.body.title, fileName,req.body.title, 
 			req.body.tags, req.body.desc, req, res);
 	});
 
@@ -62,37 +77,47 @@ var allowCrossDomain = function(req, res, next) {
     next();
 };
 
-function addNewPresentation(newDir, originalFilename, presTitle, tags, descText, req, res) {
+function addNewPresentation(presType, newDir, fileName, presTitle, tags, descText, req, res) {
 	fs.mkdir(newDir,function(err){
-    	fs.readFile(req.files.pres.path, function (err, data) {
-			var newPath = newDir +"/"+ originalFilename;
-			fs.writeFile(newPath, data, function (err) {
-				takeAPic(presTitle, originalFilename,'http://www.google.com');
-				
-				// db entitiy
-				var pres = new Presentation({
-					thumbnail:"upload/"+presTitle+"/"+presTitle+".png",
-					title: presTitle,
-					user: "s7689966",
-					tags:tags.split(','),
-					created_at:new Date(),
-					updated_at:new Date(),
-					contents: presTitle +"/" +originalFilename,
-					desc: descText
+		if (presType == PRES_TYPES.PDF){
+			fs.readFile(req.files.pres.path, function (err, data) {
+				var newPath = newDir +"/"+ fileName;
+				fs.writeFile(newPath, data, function (err) {
+					takeAPic(presTitle, fileName);
+					savePresentation(presTitle,new Date(), fileName, tags, descText, "s7689966", presType);
+					res.redirect("index.html");
 				});
-				pres.save(function(err){
-					if (err){
-						console.log(err);
-					}
-				});
-
-				res.redirect("index.html");
 			});
-		});
+		}else if (presType == PRES_TYPES.URL){
+			takeAPic(presTitle, fileName);
+			savePresentation(presTitle,new Date(), fileName, tags, descText, "s7689966", presType);
+			res.redirect("index.html");
+		}
 	});
 }
 
-function takeAPic(presName, filename, url){
+function savePresentation(presTitle, createDate, fileName, tags, descText, user, presType){
+		// db entitiy
+		var pres = new Presentation({
+			thumbnail:"upload/"+presTitle+"/"+presTitle+".png",
+			title: presTitle,
+			user: user,
+			tags:tags.split(','),
+			created_at:createDate,
+			updated_at:createDate,
+			contents: fileName,
+			desc: descText,
+			type: presType
+		});
+
+		pres.save(function(err){
+			if (err){
+				console.log(err);
+			}
+		});
+}
+
+function takeAPic(presName, filename){
 	var newPresFolder=__dirname+'/../public/upload/' + presName+ '/' ;
 
 	if (filename.endsWith('.pdf')) {
@@ -101,10 +126,10 @@ function takeAPic(presName, filename, url){
 				console.log(err);
 			}
 		});
-	}else if (filename.indexOf('http://')==0) {
+	}else if ((filename.indexOf('http://')==0) || (filename.indexOf('https://')==0)) {
 		var childArgs = [
 		  __dirname+ '/rasterize.js',
-		  url,
+		  filename,
 		  newPresFolder + presName +'.png'
 		];
 

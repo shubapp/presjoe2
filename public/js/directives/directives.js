@@ -1,7 +1,11 @@
 'use strict';
 var presJoe = angular.module('presJoe.directives',[]);
-
 var directives = {};
+
+var PRES_TYPES={
+    URL:1,
+    PDF:2
+};
 
 // directives section
 directives.scrollPosition=function($window) {
@@ -61,10 +65,16 @@ directives.showpres=function() {
         restrict: 'A',
         link: function(scope, elm, attr) {
             elm.bind('click',function(){
-                console.log(scope.pres.contents);
-                console.log($('#presModal iframe').attr('src')!='js/lib/ViewerJS/#../../../upload/'+scope.pres.contents);
-                if($('#presModal iframe').attr('src')!='js/lib/ViewerJS/#../../../upload/'+scope.pres.contents){
-                    $('#presModal iframe').attr('src','js/lib/ViewerJS/#../../../upload/'+scope.pres.contents);
+                var pdfPrefix= 'js/lib/ViewerJS/#../../../upload/';
+                var frameSrc;
+                if(scope.pres.type==PRES_TYPES.PDF){
+                    frameSrc=pdfPrefix+ scope.pres.title + '/' +scope.pres.contents;
+                }else if(scope.pres.type==PRES_TYPES.URL){
+                    frameSrc = scope.pres.contents;
+                }
+
+                if($('#presModal iframe').attr('src')!=frameSrc){
+                    $('#presModal iframe').attr('src',frameSrc);
                     $('#titleName').text(attr.showpres);
                 }
                 $('#presModal').removeClass('invisible');
